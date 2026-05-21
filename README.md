@@ -1,5 +1,9 @@
 # SiftByExif
 
+[![Build](https://github.com/FireSwordss/SiftByExif/actions/workflows/build.yml/badge.svg)](https://github.com/FireSwordss/SiftByExif/actions)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/FireSwordss/SiftByExif/releases)
+[![License](https://img.shields.io/badge/license-non--commercial-lightgrey)](LICENSE)
+
 磁盘恢复或正常导出后，按 EXIF 筛分照片：识别相机品牌 → 恢复原始文件名 → GPS 聚类定位 → 损坏扫描。
 
 ## 功能
