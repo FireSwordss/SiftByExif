@@ -1,0 +1,55 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pyinstaller Pillow
+      - run: python -m PyInstaller --name SiftByExif --onefile --windowed --add-data "siftbyexif/cities.json;siftbyexif" --hidden-import PIL._tkinter_finder main.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SiftByExif-win
+          path: dist/SiftByExif.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pyinstaller Pillow
+      - run: python -m PyInstaller --name SiftByExif --onefile --windowed --add-data "siftbyexif/cities.json:siftbyexif" --hidden-import PIL._tkinter_finder main.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SiftByExif-mac
+          path: dist/SiftByExif
+
+  release:
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: SiftByExif-win
+      - uses: actions/download-artifact@v4
+        with:
+          name: SiftByExif-mac
+      - run: mv SiftByExif.exe SiftByExif-win.exe
+      - run: zip SiftByExif-mac.zip SiftByExif
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            SiftByExif-win.exe
+            SiftByExif-mac.zip

@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "siftbyexif"
+version = "1.0.0"
+description = "Sift photos by EXIF: brand detection, GPS clustering, filename restoration, and corruption scanning"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "Pillow>=9.0",
+]
+
+[project.scripts]
+sift-by-exif = "siftbyexif.gui:main"
+
+[project.gui-scripts]
+sift-by-exif-gui = "siftbyexif.gui:main"
+
+[tool.setuptools.packages.find]
+include = ["siftbyexif*"]
